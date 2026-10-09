@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Murugammal Kanjamalai — Penetration Tester</title>
+<meta name="description" content="Murugammal Kanjamalai — penetration tester specialising in web, API, mobile and Windows infrastructure VAPT. CERT-In empanelled auditor." />
+<meta property="og:title" content="Murugammal Kanjamalai — Penetration Tester" />
+<meta property="og:description" content="Web, API, mobile & infrastructure VAPT. Every finding proven with a working exploit and reported so developers can act." />
+<meta property="og:type" content="website" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Murugammal Kanjamalai","jobTitle":"Penetration Tester","worksFor":{"@type":"Organization","name":"Innometrix Techub"},"email":"mailto:murugammalk2003@gmail.com","sameAs":["https://github.com/Murugammalk","https://linkedin.com/in/murugammal-k-34674535b"]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#0a0e14; --bg2:#0d1219; --paper:#111822; --ink:#e8edf4; --mute:#8d99ad; --line:#1f2937;
+  --amber:#f0a444; --teal:#4cc9b0; --crit:#f0707b; --glow:rgba(76,201,176,.16);
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){
+    --bg:#f4f2ec; --bg2:#ebe8df; --paper:#fcfbf8; --ink:#1a1f28; --mute:#5b6577; --line:#d9d4c7;
+    --amber:#a8630f; --teal:#13766a; --crit:#b02a3b; --glow:rgba(19,118,106,.12); color-scheme:light;
+  }
+}
+:root[data-theme="light"]{
+  --bg:#f4f2ec; --bg2:#ebe8df; --paper:#fcfbf8; --ink:#1a1f28; --mute:#5b6577; --line:#d9d4c7;
+  --amber:#a8630f; --teal:#13766a; --crit:#b02a3b; --glow:rgba(19,118,106,.12); color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 "IBM Plex Sans",Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.disp{font-family:"Space Grotesk",Arial,sans-serif}
+.mono{font-family:"JetBrains Mono",Menlo,monospace}
+.wrap{max-width:1080px;margin:0 auto;padding:0 clamp(18px,4vw,40px)}
+a{color:inherit}
+svg{display:block}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:3px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--teal);color:#000;padding:8px 12px;z-index:50;border-radius:4px}
+.skip:focus{left:8px}
+
+/* progress + nav */
+#progress{position:fixed;top:0;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--teal),var(--amber));z-index:20}
+nav.top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav.top .wrap{display:flex;align-items:center;justify-content:space-between;height:56px;gap:16px}
+.id{font:700 15px "Space Grotesk",sans-serif;text-decoration:none;display:flex;align-items:center;gap:9px}
+.id i{display:grid;place-items:center;width:28px;height:28px;border:1.5px solid var(--amber);color:var(--amber);border-radius:6px;font:700 12px "JetBrains Mono",monospace;font-style:normal}
+.links{display:flex;gap:4px;align-items:center}
+.links a{font:500 13px "IBM Plex Sans",sans-serif;color:var(--mute);text-decoration:none;padding:8px 10px;border-radius:6px;white-space:nowrap;transition:.2s}
+.links a:hover,.links a.on{color:var(--ink);background:var(--paper)}
+.links a.on{color:var(--teal)}
+.tbtn{background:none;border:1px solid var(--line);color:var(--mute);width:34px;height:34px;border-radius:8px;cursor:pointer;display:grid;place-items:center;margin-left:6px}
+.tbtn:hover{color:var(--amber);border-color:var(--amber)}
+.menu{display:none}
+@media(max-width:900px){
+  .links{position:fixed;inset:56px 0 auto 0;background:var(--bg);flex-direction:column;align-items:stretch;padding:12px 18px 18px;border-bottom:1px solid var(--line);transform:translateY(-130%);transition:.3s;gap:2px}
+  .links.open{transform:none}
+  .links a{padding:12px}
+  .menu{display:grid;place-items:center;width:34px;height:34px;border:1px solid var(--line);background:none;color:var(--ink);border-radius:8px;cursor:pointer}
+  .nr{display:flex;gap:6px;align-items:center}
+}
+.nr{display:flex;align-items:center}
+
+/* hero */
+header.hero{position:relative;padding:72px 0 0;overflow:hidden;border-bottom:1px solid var(--line)}
+.grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:48px 48px;opacity:.35;mask-image:radial-gradient(ellipse 70% 70% at 70% 30%,#000 10%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 70% 70% at 70% 30%,#000 10%,transparent 75%)}
+.orb{position:absolute;width:520px;height:520px;right:-120px;top:-160px;background:radial-gradient(circle,var(--glow),transparent 65%);pointer-events:none}
+.herorow{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding-bottom:56px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font:600 12.5px "JetBrains Mono",monospace;color:var(--teal);border:1px solid color-mix(in srgb,var(--teal) 40%,transparent);padding:6px 12px;border-radius:99px;margin:0 0 22px;background:color-mix(in srgb,var(--teal) 8%,transparent)}
+.eyebrow b{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--teal) 60%,transparent)}100%{box-shadow:0 0 0 10px transparent}}
+h1{font:700 clamp(36px,5.6vw,60px)/1.04 "Space Grotesk",sans-serif;letter-spacing:-.02em;margin:0 0 20px}
+h1 em{font-style:normal;background:linear-gradient(90deg,var(--teal),var(--amber));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.sub{color:var(--mute);font-size:18px;max-width:56ch;margin:0 0 28px}
+.hero p.sub b{color:var(--ink);font-weight:600}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:26px}
+.btn{display:inline-flex;align-items:center;gap:8px;font:600 14px "IBM Plex Sans",sans-serif;text-decoration:none;padding:12px 20px;border-radius:8px;border:1px solid var(--line);transition:.2s;cursor:pointer;background:none;color:var(--ink)}
+.btn.pri{background:var(--amber);color:#14110a;border-color:var(--amber)}
+.btn.pri:hover{transform:translateY(-2px);box-shadow:0 8px 24px color-mix(in srgb,var(--amber) 35%,transparent)}
+.btn:not(.pri):hover{border-color:var(--teal);color:var(--teal)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:500 12.5px "JetBrains Mono",monospace;color:var(--mute);border:1px solid var(--line);padding:5px 11px;border-radius:99px;background:var(--paper)}
+
+/* terminal */
+.term{border:1px solid var(--line);border-radius:12px;background:var(--paper);overflow:hidden;box-shadow:0 30px 60px -30px rgba(0,0,0,.5),0 0 0 1px color-mix(in srgb,var(--teal) 8%,transparent)}
+.term .bar{display:flex;align-items:center;gap:7px;padding:11px 14px;border-bottom:1px solid var(--line);background:var(--bg2)}
+.term .bar i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.term .bar i:nth-child(1){background:#e8616c}.term .bar i:nth-child(2){background:#e0b03c}.term .bar i:nth-child(3){background:#45b4a0}
+.term .bar span{margin-left:8px;font:500 11.5px "JetBrains Mono",monospace;color:var(--mute)}
+.term pre{margin:0;padding:18px;font:500 12.5px/1.75 "JetBrains Mono",monospace;color:var(--mute);min-height:290px;white-space:pre-wrap;word-break:break-word}
+.term .p{color:var(--teal)}.term .k{color:var(--ink)}.term .w{color:var(--amber)}.term .c{color:var(--crit)}
+.caret{display:inline-block;width:8px;height:15px;background:var(--teal);vertical-align:-2px;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.termnote{font:400 11.5px "JetBrains Mono",monospace;color:var(--mute);padding:0 18px 14px}
+
+.hstats{position:relative;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line)}
+.hstats div{padding:24px 0 26px;border-right:1px solid var(--line);padding-left:22px}
+.hstats div:first-child{padding-left:0}
+.hstats div:last-child{border-right:0}
+.hstats b{display:block;font:700 30px "Space Grotesk",sans-serif;color:var(--amber)}
+.hstats span{color:var(--mute);font-size:12.5px}
+@media(max-width:860px){
+  .herorow{grid-template-columns:1fr;gap:36px}
+  .hstats{grid-template-columns:repeat(2,1fr)}
+  .hstats div:nth-child(2){border-right:0}
+  .hstats div:nth-child(3){padding-left:0;border-top:1px solid var(--line)}
+  .hstats div:nth-child(4){border-top:1px solid var(--line)}
+}
+
+/* sections */
+.stage{padding:84px 0;border-bottom:1px solid var(--line)}
+.sh{display:flex;align-items:baseline;gap:14px;margin:0 0 14px}
+.sh .n{font:600 13px "JetBrains Mono",monospace;color:var(--amber)}
+.stage h2{font:700 clamp(26px,3.6vw,34px)/1.15 "Space Grotesk",sans-serif;letter-spacing:-.01em;margin:0}
+.lead{color:var(--mute);max-width:64ch;margin:0 0 36px}
+
+/* reveal */
+.js .rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+.js .rv.in{opacity:1;transform:none}
+.d1{transition-delay:.08s!important}.d2{transition-delay:.16s!important}.d3{transition-delay:.24s!important}
+
+/* about */
+.obs{display:grid;grid-template-columns:1.3fr 1fr;gap:48px;margin-top:22px}
+.obs p{color:var(--mute);margin:0;max-width:58ch}
+.obs p b{color:var(--ink);font-weight:600}
+.figs{display:grid;gap:14px}
+.fig{border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:18px 20px;display:flex;align-items:center;gap:18px}
+.fig b{font:700 32px "Space Grotesk",sans-serif;color:var(--teal);min-width:64px}
+.fig span{color:var(--mute);font-size:13.5px;line-height:1.45}
+@media(max-width:860px){.obs{grid-template-columns:1fr;gap:28px}}
+
+/* skills */
+.surface{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.surf{border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:26px;transition:.3s;position:relative;overflow:hidden}
+.surf::after{content:"";position:absolute;inset:0 0 auto 0;height:2px;background:linear-gradient(90deg,var(--teal),var(--amber));transform:scaleX(0);transform-origin:left;transition:.4s}
+.surf:hover{border-color:color-mix(in srgb,var(--teal) 50%,var(--line));transform:translateY(-4px)}
+.surf:hover::after{transform:scaleX(1)}
+.surf .ic{width:34px;height:34px;color:var(--teal);margin-bottom:14px}
+.surf h3{font:700 20px "Space Grotesk",sans-serif;margin:0 0 8px}
+.surf .d{color:var(--mute);font-size:14px;margin:0 0 16px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.tag{font:500 12px "IBM Plex Sans",sans-serif;color:var(--ink);background:var(--bg2);border:1px solid var(--line);padding:4px 10px;border-radius:6px}
+.lab{font:600 11px "JetBrains Mono",monospace;color:var(--amber);letter-spacing:.06em;text-transform:uppercase;margin:0 0 8px}
+.tools{font:500 12px/1.9 "JetBrains Mono",monospace;color:var(--teal);border-top:1px dashed var(--line);padding-top:12px;margin:0}
+.ports{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:16px}
+.ports span{font:500 12px "JetBrains Mono",monospace;color:var(--mute);background:var(--bg2);border:1px solid var(--line);border-radius:6px;padding:6px 9px}
+.ports span b{color:var(--amber);font-weight:600}
+.surf ul.pl{list-style:none;margin:0 0 16px;padding:0}
+.surf ul.pl li{padding:7px 0 7px 18px;position:relative;font-size:14.5px;color:var(--mute);border-bottom:1px dashed var(--line)}
+.surf ul.pl li:last-child{border:0}
+.surf ul.pl li::before{content:"›";position:absolute;left:0;color:var(--teal);font-weight:700}
+
+/* timeline */
+.path{position:relative;margin-left:8px;padding-left:34px;border-left:2px solid var(--line)}
+.pnode{position:relative;padding-bottom:34px}
+.pnode:last-child{padding-bottom:0}
+.pnode::before{content:"";position:absolute;left:-43px;top:5px;width:16px;height:16px;border-radius:50%;background:var(--bg);border:3px solid var(--amber);box-shadow:0 0 0 5px var(--bg)}
+.pnode:last-child::before{background:var(--amber);box-shadow:0 0 0 5px var(--bg),0 0 18px var(--amber)}
+.pnode h3{margin:0 0 6px;font:700 19px "Space Grotesk",sans-serif}
+.pnode p{margin:0 0 8px;color:var(--mute);font-size:15px;max-width:66ch}
+.pnode p b{color:var(--ink);font-weight:600}
+.pnode .t{display:inline-block;font:500 12px "JetBrains Mono",monospace;color:var(--teal);border:1px solid color-mix(in srgb,var(--teal) 40%,transparent);padding:3px 9px;border-radius:4px}
+
+/* cards */
+.lateral{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px}
+.node{border:1px solid var(--line);border-radius:12px;padding:26px;background:var(--paper);display:flex;flex-direction:column;transition:.3s}
+.node:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--amber) 50%,var(--line));box-shadow:0 18px 40px -22px rgba(0,0,0,.5)}
+.node .nic{width:32px;height:32px;color:var(--teal);margin-bottom:14px}
+.status{align-self:flex-start;font:600 11px "JetBrains Mono",monospace;color:var(--teal);border:1px solid var(--teal);border-radius:4px;padding:3px 8px;margin-bottom:14px}
+.status.a{color:var(--amber);border-color:var(--amber)}
+.node h3{margin:0 0 4px;font:700 20px "Space Grotesk",sans-serif}
+.node .stack{font:500 11.5px "JetBrains Mono",monospace;color:var(--teal);margin:0 0 14px;letter-spacing:.03em}
+.node p{margin:0 0 12px;color:var(--mute);font-size:14.5px}
+.node ul{margin:0 0 16px;padding-left:18px;color:var(--mute);font-size:14px}
+.node ul li{margin-bottom:5px}
+.node ul li::marker{color:var(--amber)}
+.node a.repo{margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:8px;font:600 13px "JetBrains Mono",monospace;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:3px;transition:.2s}
+.node a.repo:hover{color:var(--teal);border-color:var(--teal)}
+.node a.repo svg{width:15px;height:15px}
+.note{margin-top:18px;color:var(--mute);font-size:13px}
+
+/* certs */
+.certs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.cert{border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:22px;display:flex;gap:16px;align-items:flex-start;transition:.3s}
+.cert:hover{border-color:var(--amber)}
+.cert svg{width:34px;height:34px;color:var(--amber);flex:none}
+.cert h3{margin:0 0 4px;font:700 16px/1.35 "Space Grotesk",sans-serif}
+.cert p{margin:0;color:var(--mute);font-size:13.5px}
+.edu{margin-top:24px;color:var(--mute);font-size:15px;border:1px solid var(--line);border-radius:12px;padding:20px 22px;background:var(--paper)}
+.edu b{color:var(--ink)}
+
+/* findings */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px}
+.fbtn{font:600 12px "JetBrains Mono",monospace;background:none;color:var(--mute);border:1px solid var(--line);padding:7px 14px;border-radius:99px;cursor:pointer;transition:.2s}
+.fbtn:hover{color:var(--ink)}
+.fbtn[aria-pressed="true"]{color:#0a0e14;background:var(--teal);border-color:var(--teal)}
+.loot{display:grid;gap:12px}
+.item{display:grid;grid-template-columns:96px 1fr auto;gap:20px;padding:20px 22px;border:1px solid var(--line);border-left-width:3px;border-radius:10px;background:var(--paper);align-items:center;transition:.25s}
+.item:hover{transform:translateX(4px)}
+.item[data-s="crit"]{border-left-color:var(--crit)}.item[data-s="high"]{border-left-color:var(--amber)}.item[data-s="med"]{border-left-color:var(--teal)}
+.item[hidden]{display:none}
+.sev{font:700 11.5px "JetBrains Mono",monospace;text-align:center;padding:5px 0;border:1.5px solid;border-radius:4px}
+.crit{color:var(--crit);border-color:var(--crit)}.high{color:var(--amber);border-color:var(--amber)}.med{color:var(--teal);border-color:var(--teal)}
+.item h3{margin:0 0 4px;font-size:16px;font-weight:600}
+.item p{margin:0;color:var(--mute);font-size:14px}
+.cvss{font:600 12.5px "JetBrains Mono",monospace;color:var(--mute);white-space:nowrap;text-align:right}
+@media(max-width:680px){
+  .item{grid-template-columns:76px 1fr}
+  .cvss{grid-column:1/-1;text-align:left}
+}
+
+/* contact */
+.c2{padding:90px 0 60px;position:relative;overflow:hidden}
+.c2::before{content:"";position:absolute;left:50%;bottom:-260px;width:700px;height:500px;transform:translateX(-50%);background:radial-gradient(circle,var(--glow),transparent 65%);pointer-events:none}
+.c2 .wrap{position:relative}
+.c2 h2{font:700 clamp(30px,5vw,50px)/1.08 "Space Grotesk",sans-serif;letter-spacing:-.02em;margin:0 0 14px;max-width:18ch}
+.c2 .sub{color:var(--mute);margin:0 0 32px;max-width:52ch}
+.clist{display:grid;gap:12px;max-width:620px;margin-bottom:26px}
+.crow{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:14px 18px;text-decoration:none;transition:.25s}
+.crow:hover{border-color:var(--amber);transform:translateX(4px)}
+.crow .l{font:500 11.5px "JetBrains Mono",monospace;color:var(--mute);display:block;margin-bottom:2px}
+.crow .v{font:700 18px "Space Grotesk",sans-serif;color:var(--amber);word-break:break-all}
+.crow svg{width:18px;height:18px;color:var(--mute);flex:none}
+.meta{color:var(--mute);font:500 12.5px/1.8 "JetBrains Mono",monospace}
+footer{border-top:1px solid var(--line);padding:22px 0;color:var(--mute);font:500 12px "JetBrains Mono",monospace}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,30px);background:var(--teal);color:#06110e;font:600 13px "IBM Plex Sans",sans-serif;padding:10px 18px;border-radius:8px;opacity:0;transition:.3s;pointer-events:none;z-index:30}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .js .rv{opacity:1;transform:none}
+}
+@media print{
+  nav.top,#progress,.grid-bg,.orb,.tbtn,.filters,.term{display:none!important}
+  body{background:#fff;color:#000}.js .rv{opacity:1;transform:none}
+  .stage{padding:28px 0}
+}
+</style>
+<script>document.documentElement.classList.add('js');try{var t=localStorage.getItem('mk-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+</head>
+<body>
+<a class="skip" href="#about">Skip to content</a>
+<div id="progress"></div>
+
+<nav class="top" aria-label="Primary">
+  <div class="wrap">
+    <a class="id" href="#top"><i>MK</i>Murugammal K.</a>
+    <div class="nr">
+      <div class="links" id="links">
+        <a href="#about">About</a><a href="#skills">Skills</a><a href="#experience">Experience</a><a href="#pentest-projects">Pentest</a><a href="#projects">Dev</a><a href="#certs">Certs</a><a href="#findings">Findings</a><a href="#contact">Contact</a>
+      </div>
+      <button class="tbtn" id="theme" aria-label="Toggle light and dark theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      </button>
+      <button class="menu" id="menu" aria-label="Open menu" aria-expanded="false" style="margin-left:6px">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="grid-bg"></div><div class="orb"></div>
+  <div class="wrap">
+    <div class="herorow">
+      <div>
+        <p class="eyebrow"><b></b>Open to new roles</p>
+        <h1>Penetration tester. Two years finding what <em>web and mobile apps hide.</em></h1>
+        <p class="sub">I'm Murugammal Kanjamalai, a penetration tester at <b>Innometrix Techub</b> in Salem. I find vulnerabilities in web applications, APIs and mobile apps — prove each one with a working exploit — and report it so developers can act. I'm also a <b>CERT-In empanelled auditor</b>, trusted with government-grade infrastructure assessments.</p>
+        <div class="cta">
+          <a class="btn pri" href="#contact">Get in touch
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn" href="#findings">See selected findings</a>
+        </div>
+        <div class="chips">
+          <span class="chip">Chennai, Tamil Nadu</span>
+          <span class="chip">Web &amp; Mobile VAPT</span>
+          <span class="chip">Network Recon</span>
+          <span class="chip">CERT-In Audits</span>
+        </div>
+      </div>
+      <div class="term" aria-hidden="true">
+        <div class="bar"><i></i><i></i><i></i><span>mk@recon — ~/engagement</span></div>
+        <pre id="tty"></pre>
+        <div class="termnote">// illustrative output, not a real target</div>
+      </div>
+    </div>
+    <div class="hstats">
+      <div><b data-count="2" data-suffix="+ yrs">0</b><span>Hands-on VAPT since June 2024</span></div>
+      <div><b data-count="5">0</b><span>Domains: web, API, mobile, network, Windows</span></div>
+      <div><b data-count="1">0</b><span>Government portal led end-to-end</span></div>
+      <div><b>CERT-In</b><span>Empanelled auditor</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="stage" id="about">
+  <div class="wrap">
+    <div class="sh rv"><span class="n">01</span><h2>About</h2></div>
+    <div class="obs">
+      <p class="rv">Two years into a career spent finding the door that was left open before someone worse does. Day to day that means <b>web, API, mobile and Windows infrastructure testing</b> — not just scanning, but manually proving every finding with a working exploit, then writing it up so a developer can fix it without a follow-up call. I've also run security audits for Indian government systems under CERT-In empanelment, which means the report has to satisfy an auditor and a non-technical stakeholder in the same document.</p>
+      <div class="figs">
+        <div class="fig rv d1"><b>2 yrs</b><span>Hands-on VAPT, June 2024 – present</span></div>
+        <div class="fig rv d2"><b>5</b><span>Domains: web, API, mobile, network, Windows</span></div>
+        <div class="fig rv d3"><b>1</b><span>Government portal led end-to-end (Labour Dept, TN)</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stage" id="skills">
+  <div class="wrap">
+    <div class="sh rv"><span class="n">02</span><h2>Where I find vulnerabilities</h2></div>
+    <p class="lead rv">Scoped recon first, manual exploitation second, tooling in support of both.</p>
+    <div class="surface">
+      <article class="surf rv">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8h20M8 2.5v3M16 2.5v3"/></svg>
+        <h3>Web &amp; mobile applications</h3>
+        <p class="d">Includes API testing — most apps I test are a web or mobile frontend talking to an API, so I treat them as one target.</p>
+        <p class="lab">Web</p>
+        <div class="tags"><span class="tag">SQL injection</span><span class="tag">Stored &amp; reflected XSS</span><span class="tag">CSRF</span><span class="tag">Broken auth &amp; sessions</span><span class="tag">IDOR / BOLA / BFLA</span><span class="tag">SSRF</span><span class="tag">Misconfiguration</span><span class="tag">Insecure file upload</span><span class="tag">Business logic</span></div>
+        <p class="lab">Mobile</p>
+        <div class="tags"><span class="tag">Insecure local storage</span><span class="tag">SSL pinning bypass (Frida)</span><span class="tag">Root/jailbreak detection bypass</span><span class="tag">Weak / hardcoded crypto keys</span><span class="tag">Insecure inter-app comms</span><span class="tag">Insecure API calls</span></div>
+        <p class="tools">Burp Suite · Postman · SQLmap · Frida · JADX · MobSF · APKTool</p>
+      </article>
+      <article class="surf rv d1">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18M12 3a9 9 0 0 0 0 18M3 12h18"/></svg>
+        <h3>Network reconnaissance</h3>
+        <p class="d">Scoped port and service scans before anything is touched manually.</p>
+        <div class="ports">
+          <span><b>21</b> FTP</span><span><b>22</b> SSH</span><span><b>23</b> Telnet</span><span><b>25</b> SMTP</span>
+          <span><b>53</b> DNS</span><span><b>80/443</b> HTTP(S)</span><span><b>139/445</b> SMB</span><span><b>3389</b> RDP</span>
+          <span><b>8080</b> HTTP-alt</span>
+        </div>
+        <p class="tools">Nmap · Nessus · enum4linux · Wireshark · Nikto</p>
+      </article>
+      <article class="surf rv d2">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 21V9l8-6 8 6v12"/><path d="M9 21v-7h6v7"/></svg>
+        <h3>Infrastructure</h3>
+        <p class="d">Windows and Linux environments, once recon narrows down a target.</p>
+        <ul class="pl">
+          <li>Service &amp; share misconfiguration (SMB, RDP)</li>
+          <li>Known-CVE exploitation — e.g. SMBGhost (SMBv3.1.1) to SYSTEM shell</li>
+          <li>Privilege escalation &amp; internal lateral paths</li>
+        </ul>
+        <p class="tools">Metasploit · Hydra · PowerShell</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="stage" id="experience">
+  <div class="wrap">
+    <div class="sh rv"><span class="n">03</span><h2>How the access grew</h2></div>
+    <p class="lead rv">Innometrix Techub, Salem · Penetration Tester · June 2024 – present</p>
+    <div class="path">
+      <div class="pnode rv"><h3>Joined as a tester</h3><p>Started running VAPT on individual web, API and mobile targets — recon through retest, on client-assigned scope.</p><span class="t">June 2024</span></div>
+      <div class="pnode rv"><h3>Built up web &amp; mobile vulnerability work</h3><p>Took on full web and mobile assessments independently — manual testing for SQL injection, XSS, CSRF, broken authentication and IDOR/BOLA on the web side; SSL pinning bypass with Frida, insecure storage and weak crypto on the mobile side.</p><span class="t">Web &amp; mobile VAPT</span></div>
+      <div class="pnode rv"><h3>Owned full infrastructure audits</h3><p>Took on Windows infrastructure testbeds for CERT-In empanelment work — exploited SMBGhost (SMBv3.1.1) for a SYSTEM shell, audited a Roundcube mail server via a PHP deserialization bug for a reverse shell.</p><span class="t">CERT-In empanelment track</span></div>
+      <div class="pnode rv"><h3>Became team lead on a government engagement</h3><p>Led a 2-person team as <b>team lead</b>, auditing the Tamil Nadu Labour Department's ISM portal under a PMU contract — owned the vulnerability findings end to end, briefed Commissioner and Assistant Commissioner-level officials directly, and walked developers through remediation.</p><span class="t">Team lead · stakeholder-facing</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="stage" id="pentest-projects">
+  <div class="wrap">
+    <div class="sh rv"><span class="n">04</span><h2>Pentesting projects</h2></div>
+    <p class="lead rv">Full web + mobile VAPT engagements — scope and testing focus below.</p>
+    <div class="lateral">
+      <article class="node rv">
+        <svg class="nic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 9l4-6h8l4 6-10 12L4 9Z"/><path d="M4 9h16M9.5 3 8 9l4 12 4-12-1.5-6"/></svg>
+        <span class="status">Mobile app + website</span>
+        <h3>Jewellery e-commerce</h3>
+        <p class="stack">CATALOG · CART · CHECKOUT · PAYMENTS</p>
+        <p>Testing across the storefront, admin panel, and the Android app sharing its backend.</p>
+        <ul><li>Payment &amp; checkout business-logic abuse</li><li>IDOR on order and customer records</li><li>SSL pinning &amp; local storage on the mobile app</li><li>KYC/payment data handling at rest</li></ul>
+      </article>
+      <article class="node rv d1">
+        <svg class="nic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 16v-3l2-5a2 2 0 0 1 2-1h10a2 2 0 0 1 2 1l2 5v3"/><path d="M3 16h18M6 16v2M18 16v2"/><circle cx="7.5" cy="13" r="1.1" fill="currentColor" stroke="none"/><circle cx="16.5" cy="13" r="1.1" fill="currentColor" stroke="none"/></svg>
+        <span class="status">Mobile app + website</span>
+        <h3>Ride-hailing pilot app</h3>
+        <p class="stack">RAPIDO-STYLE BOOKING PLATFORM</p>
+        <p>Rider/driver booking app — live location, trip booking, driver assignment, and a backend API shared by both roles.</p>
+        <ul><li>Location &amp; trip-data exposure</li><li>BOLA between rider and driver accounts</li><li>Role-boundary testing (rider vs driver vs admin)</li></ul>
+      </article>
+      <article class="node rv d2">
+        <svg class="nic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 10 12 4l8 6"/><path d="M5 10v9M19 10v9M9 10v9M15 10v9M3 19h18"/></svg>
+        <span class="status">Mobile app + website</span>
+        <h3>Sagoserve government app</h3>
+        <p class="stack">CITIZEN PORTAL · COOPERATIVE SERVICES</p>
+        <p>Citizen-facing portal and companion app for a government cooperative service.</p>
+        <ul><li>Public vs admin access-control boundaries</li><li>PII handling for citizen records</li><li>Infrastructure hardening on the hosting side</li><li>CERT-In-style CVSS reporting</li></ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="stage" id="projects">
+  <div class="wrap">
+    <div class="sh rv"><span class="n">05</span><h2>Development projects</h2></div>
+    <p class="lead rv">Testing software is one thing; building it the right way is another. These are in progress.</p>
+    <div class="lateral">
+      <article class="node rv">
+        <svg class="nic" style="color:var(--amber)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+        <span class="status a">Building now</span>
+        <h3>EQ — sensitive data detector &amp; alert</h3>
+        <p class="stack">FLASK · PYTHON · POSTGRESQL</p>
+        <p>A browser extension plus Flask backend that scans form fields, pastes and uploads for sensitive data before it leaves the browser — API keys, card numbers, government ID formats, passwords — and raises a real-time alert.</p>
+        <ul><li>Pattern-matching engine for common sensitive-data types</li><li>Real-time in-browser alert the moment a match is found</li><li>Flask REST API logging every detection event to PostgreSQL</li><li>Dashboard view of alert history for review</li></ul>
+        <a class="repo" href="https://github.com/Murugammalk" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.6-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.4 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5Z"/></svg>GitHub profile</a>
+      </article>
+      <article class="node rv d1">
+        <svg class="nic" style="color:var(--amber)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <span class="status a">In development</span>
+        <h3>Sagoserve e-commerce website</h3>
+        <p class="stack">FLASK · PYTHON · POSTGRESQL</p>
+        <p>An e-commerce website build for Sagoserve (Tamil Nadu's sago/tapioca cooperative marketing federation) — product catalog, cart, checkout and an admin panel for orders and stock.</p>
+        <ul><li>Product catalog with stock-aware listings and category search</li><li>Cart, checkout and order-status flow with server-side session handling</li><li>Admin panel for order and inventory management</li><li>Secure-by-default: hashed credentials, CSRF protection, access control on every admin route</li></ul>
+        <a class="repo" href="https://github.com/Murugammalk" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.6-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.4 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5Z"/></svg>GitHub profile</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="stage" id="certs">
+  <div class="wrap">
+    <div class="sh rv"><span class="n">06</span><h2>Certifications &amp; training</h2></div>
+    <div class="certs" style="margin-top:22px">
+      <div class="cert rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="9" r="6"/><path d="M8.5 14 7 22l5-3 5 3-1.5-8"/></svg><div><h3>Certified AppSec Practitioner (CAP)</h3><p>With Merit · The SecOps Group</p></div></div>
+      <div class="cert rv d1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="9" r="6"/><path d="M8.5 14 7 22l5-3 5 3-1.5-8"/></svg><div><h3>Certified Penetration Testing</h3><p>CyberNerds Solutions · 2025</p></div></div>
+      <div class="cert rv d2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="9" r="6"/><path d="M8.5 14 7 22l5-3 5 3-1.5-8"/></svg><div><h3>Certified Malware Analyst in Windows</h3><p>K7 Academy</p></div></div>
+    </div>
+    <div class="edu rv"><b>B.E., Electronics &amp; Communication Engineering</b> — Sri Shanmugha College of Engineering and Technology, Salem · 2020–2024 · CGPA 8.5/10</div>
+  </div>
+</section>
+
+<section class="stage" id="findings">
+  <div class="wrap">
+    <div class="sh rv"><span class="n">07</span><h2>Selected findings</h2></div>
+    <p class="lead rv">The kinds of issues I find and prove. Details are anonymised under NDA.</p>
+    <div class="filters rv" role="group" aria-label="Filter by severity">
+      <button class="fbtn" data-f="all" aria-pressed="true">All</button>
+      <button class="fbtn" data-f="crit" aria-pressed="false">Critical</button>
+      <button class="fbtn" data-f="high" aria-pressed="false">High</button>
+      <button class="fbtn" data-f="med" aria-pressed="false">Medium</button>
+    </div>
+    <div class="loot">
+      <div class="item rv" data-s="crit"><span class="sev crit">CRITICAL</span><div><h3>SMBGhost → SYSTEM shell</h3><p>CVE-2020-0796 against SMBv3.1.1, chained to a full SYSTEM shell on a Windows testbed during a CERT-In empanelment evaluation.</p></div><span class="cvss">CVSS 9.8</span></div>
+      <div class="item rv" data-s="crit"><span class="sev crit">CRITICAL</span><div><h3>Deserialization → reverse shell</h3><p>PHP object-deserialization flaw in a Roundcube webmail install, weaponized for a reverse shell during a CERT-In audit.</p></div><span class="cvss">CVSS 9.1</span></div>
+      <div class="item rv" data-s="high"><span class="sev high">HIGH</span><div><h3>BOLA/BFLA in a client API</h3><p>Swapping an identifier in an authenticated request returned another tenant's data — no further privilege needed.</p></div><span class="cvss">CVSS 8.1</span></div>
+      <div class="item rv" data-s="high"><span class="sev high">HIGH</span><div><h3>SSL pinning bypass, Android app</h3><p>Defeated certificate pinning with a Frida script, exposing the app's API traffic to interception and opening the rest of the API surface to testing.</p></div><span class="cvss">CVSS 7.4</span></div>
+      <div class="item rv" data-s="med"><span class="sev med">MEDIUM</span><div><h3>SQL injection in a login form</h3><p>An unsanitized login field let a crafted input bypass authentication. Common, cheap to fix, expensive to ignore.</p></div><span class="cvss">CVSS 6.5</span></div>
+      <div class="item rv" data-s="med"><span class="sev med">MEDIUM</span><div><h3>CSRF on a state-changing action</h3><p>No anti-CSRF token on an account-settings form — a forged request from another site could change the victim's data while they were logged in.</p></div><span class="cvss">CVSS 6.1</span></div>
+    </div>
+    <p class="note">CVSS values shown are illustrative of the rating format, not copied from client reports.</p>
+  </div>
+</section>
+
+<section class="c2" id="contact">
+  <div class="wrap">
+    <h2 class="rv">Open to new roles — I reply fast.</h2>
+    <p class="sub rv">Hiring for a VAPT, AppSec or security-audit role? Send a note and I'll get back to you.</p>
+    <div class="clist rv">
+      <a class="crow" href="mailto:murugammalk2003@gmail.com"><span><span class="l">EMAIL</span><span class="v">murugammalk2003@gmail.com</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+      <a class="crow" href="https://linkedin.com/in/murugammal-k-34674535b" target="_blank" rel="noopener"><span><span class="l">LINKEDIN</span><span class="v">linkedin.com/in/murugammal-k-34674535b</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      <a class="crow" href="https://github.com/Murugammalk" target="_blank" rel="noopener"><span><span class="l">GITHUB</span><span class="v">github.com/Murugammalk</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+    </div>
+    <button class="btn rv" id="copy" type="button">Copy email address</button>
+    <p class="meta" style="margin-top:22px">+91 8838986717 · Chennai, Tamil Nadu, India<br>All testing above was performed under written authorisation.</p>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>© <span id="yr">2026</span> Murugammal Kanjamalai</span><span>Built to be read in a hurry.</span></div></footer>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.getElementById('yr').textContent=new Date().getFullYear();
+
+  /* theme */
+  document.getElementById('theme').addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme')||(window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    try{localStorage.setItem('mk-theme',next)}catch(e){}
+  });
+
+  /* mobile menu */
+  var links=document.getElementById('links'),menu=document.getElementById('menu');
+  menu.addEventListener('click',function(){var o=links.classList.toggle('open');menu.setAttribute('aria-expanded',o)});
+  links.addEventListener('click',function(e){if(e.target.tagName==='A'){links.classList.remove('open');menu.setAttribute('aria-expanded','false')}});
+
+  /* progress + active link */
+  var bar=document.getElementById('progress');
+  var secs=[].slice.call(document.querySelectorAll('main section[id]'));
+  var navs=[].slice.call(links.querySelectorAll('a'));
+  function onScroll(){
+    var h=document.documentElement.scrollHeight-innerHeight;
+    bar.style.width=(h>0?scrollY/h*100:0)+'%';
+    var cur='';
+    secs.forEach(function(s){if(s.getBoundingClientRect().top<140)cur=s.id});
+    navs.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+cur)});
+  }
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  /* reveal */
+  var rv=[].slice.call(document.querySelectorAll('.rv'));
+  if('IntersectionObserver' in window&&!reduce){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+    rv.forEach(function(el){io.observe(el)});
+  }else rv.forEach(function(el){el.classList.add('in')});
+
+  /* counters */
+  document.querySelectorAll('[data-count]').forEach(function(el){
+    var n=+el.dataset.count,suf=el.dataset.suffix||'';
+    if(reduce){el.textContent=n+suf;return}
+    var t0=null;
+    function step(t){if(!t0)t0=t;var p=Math.min((t-t0)/1200,1);el.textContent=Math.round(n*(1-Math.pow(1-p,3)))+(p===1?suf:'');if(p<1)requestAnimationFrame(step)}
+    requestAnimationFrame(step);
+  });
+
+  /* terminal */
+  var tty=document.getElementById('tty');
+  var script=[
+    '<span class="p">$</span> <span class="k">nmap -sV -p 21,22,80,443,445,3389 target.scope</span>',
+    'Starting scan against in-scope host…',
+    '<span class="k">PORT      STATE  SERVICE</span>',
+    '22/tcp    open   ssh',
+    '80/tcp    open   http',
+    '443/tcp   open   https',
+    '445/tcp   <span class="w">open   microsoft-ds</span>',
+    '',
+    '<span class="p">$</span> <span class="k">burp → intercept → modify id=1042</span>',
+    '<span class="c">[!] response returned another user\'s record</span>',
+    '<span class="p">[+] reproduced · CVSS-rated · report drafted</span>'
+  ];
+  var i=0;
+  function render(n){tty.innerHTML=script.slice(0,n).join('\n')+'\n<span class="caret"></span>'}
+  if(reduce){render(script.length)}
+  else{render(0);(function tick(){i++;render(i);if(i<script.length)setTimeout(tick,i<2?700:420)})()}
+
+  /* findings filter */
+  var fb=[].slice.call(document.querySelectorAll('.fbtn')),items=[].slice.call(document.querySelectorAll('.item'));
+  fb.forEach(function(b){b.addEventListener('click',function(){     
+    fb.forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+    items.forEach(function(it){it.hidden=!(b.dataset.f==='all'||it.dataset.s===b.dataset.f);it.classList.add('in')});
+  })});
+
+  /* copy email */
+  var toast=document.getElementById('toast');
+  function say(m){toast.textContent=m;toast.classList.add('show');setTimeout(function(){toast.classList.remove('show')},1800)}
+  document.getElementById('copy').addEventListener('click',function(){
+    var m='murugammalk2003@gmail.com';
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(m).then(function(){say('Email copied')},function(){say(m)})}
+    else say(m);
+  });
+})();
+</script>
+</body>
+</html>
