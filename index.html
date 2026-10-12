@@ -64,6 +64,9 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;heig
 }
 .nr{display:flex;align-items:center}
 
+.navres{padding:8px 14px!important;font-size:13px!important;margin-left:8px;white-space:nowrap}
+@media(max-width:380px){.navres{padding:7px 10px!important;font-size:12px!important}}
+
 /* hero */
 header.hero{position:relative;padding:72px 0 0;overflow:hidden;border-bottom:1px solid var(--line)}
 .grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:48px 48px;opacity:.35;mask-image:radial-gradient(ellipse 70% 70% at 70% 30%,#000 10%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 70% 70% at 70% 30%,#000 10%,transparent 75%)}
@@ -96,7 +99,7 @@ h1 em{font-style:normal;background:linear-gradient(90deg,var(--teal),var(--amber
 @keyframes blink{50%{opacity:0}}
 .termnote{font:400 11.5px "JetBrains Mono",monospace;color:var(--mute);padding:0 18px 14px}
 
-.hstats{position:relative;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line)}
+.hstats{position:relative;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
 .hstats div{padding:24px 0 26px;border-right:1px solid var(--line);padding-left:22px}
 .hstats div:first-child{padding-left:0}
 .hstats div:last-child{border-right:0}
@@ -253,6 +256,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
       <div class="links" id="links">
         <a href="#about">About</a><a href="#skills">Skills</a><a href="#experience">Experience</a><a href="#pentest-projects">Pentest</a><a href="#projects">Dev</a><a href="#certs">Certs</a><a href="#findings">Findings</a><a href="#contact">Contact</a>
       </div>
+      <a class="btn pri navres" href="Murugammal_2026_Resume.pdf" download>Resume</a>
       <button class="tbtn" id="theme" aria-label="Toggle light and dark theme" title="Toggle theme">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
       </button>
@@ -270,11 +274,12 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
       <div>
         <p class="eyebrow"><b></b>Open to new roles</p>
         <h1>Penetration tester. Two years finding what <em>web and mobile apps hide.</em></h1>
-        <p class="sub">I'm Murugammal Kanjamalai, a penetration tester at <b>Innometrix Techub</b> in Salem. I find vulnerabilities in web applications, APIs and mobile apps — prove each one with a working exploit — and report it so developers can act. I'm also a <b>Worked in CERT-In Empanelments </b></p>
+        <p class="sub">I'm Murugammal Kanjamalai, a penetration tester at <b>Innometrix Techub</b> in Salem. I find vulnerabilities in web applications, APIs and mobile apps — prove each one with a working exploit — and report it so developers can act. I've also worked on <b>CERT-In empanelment audits</b>.</p>
         <div class="cta">
           <a class="btn pri" href="#contact">Get in touch
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           <a class="btn" href="#findings">See selected findings</a>
+          <a class="btn" href="Murugammal_2026_Resume.pdf" download>Download resume</a>
         </div>
         <div class="chips">
           <span class="chip">Chennai, Tamil Nadu</span>
@@ -293,7 +298,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
       <div><b data-count="2" data-suffix="+ yrs">0</b><span>Hands-on VAPT since June 2024</span></div>
       <div><b data-count="5">0</b><span>Domains: web, API, mobile, network, Windows</span></div>
       <div><b data-count="1">0</b><span>Government portal led end-to-end</span></div>
-      <div><b>CERT-In</b><span>Empanelled auditor</span></div>
+      <!-- <div><b>CERT-In</b><span>Empanelled auditor</span></div> -->
     </div>
   </div>
 </header>
@@ -470,7 +475,10 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
       <a class="crow" href="https://linkedin.com/in/murugammal-k-34674535b" target="_blank" rel="noopener"><span><span class="l">LINKEDIN</span><span class="v">linkedin.com/in/murugammal-k-34674535b</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
       <a class="crow" href="https://github.com/Murugammalk" target="_blank" rel="noopener"><span><span class="l">GITHUB</span><span class="v">github.com/Murugammalk</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
     </div>
-    <button class="btn rv" id="copy" type="button">Copy email address</button>
+    <div class="cta rv">
+      <a class="btn pri" href="Murugammal_2026_Resume.pdf" download>Download resume</a>
+      <button class="btn" id="copy" type="button">Copy email address</button>
+    </div>
     <p class="meta" style="margin-top:22px">+91 8838986717 · Chennai, Tamil Nadu, India<br>All testing above was performed under written authorisation.</p>
   </div>
 </section>
